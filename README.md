@@ -1,6 +1,8 @@
 # Next sneakerfit
 
-> SneakerFit é uma aplicação completa de e-commerce e painel administrativo desenvolvida com Next.js 15, TypeScript e Tailwind CSS v4.
+> SneakerFit é o protótipo de uma aplicação de e-commerce e painel administrativo desenvolvida em um grupo acadêmico com Next.js 15, TypeScript e Tailwind CSS v4.
+
+<img width="400" alt="sneakerfit-pages" src="https://github.com/user-attachments/assets/38ff68c9-2827-40c7-a6b9-2ce271d6a44f" />
 
 ### 🛍️ Loja (Store)
 
