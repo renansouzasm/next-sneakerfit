@@ -57,11 +57,6 @@ Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
-### 🖼️ Recursos Visuais
-
-As imagens/avatares utilizadas no projeto foram obtidas do site
-[Vecteezy](https://pt.vecteezy.com), uma plataforma de vetores e fotos livres para uso pessoal e comercial.
-
 ### 📂 Estrutura do Projeto (resumo)
 
 ```txt
