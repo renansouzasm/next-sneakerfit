@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductStatus {
+  AVAILABLE
+  LOW_STOCK
+  NO_STOCK
+}
+
+enum OrderStatus {
+  PROCESSING
+  COMPLETED
+  CANCELED
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  VACATION
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model Product {
+  id        String        @id @default(uuid())
+  name      String
+  brand     String
+  imageUrl  String?
+  price     Int            
+  stock     Int            @default(0)
+  status    ProductStatus  @default(NO_STOCK)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt()
+  orders    OrderItem[]    
+}
+
+model Customer {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  orders    Order[]
+}
+
+model Employee {
+  id        String          @id @default(uuid())
+  name      String
+  email     String          @unique
+  cpf       String          @unique
+  role      String          
+  avatarUrl String?
+  status    EmployeeStatus  @default(ACTIVE)
+  createdAt DateTime        @default(now())
+  tasks     TaskAssignment[]
+}
+
+model Order {
+  id          String        @id @default(uuid())
+  customer    Customer      @relation(fields: [customerId], references: [id])
+  customerId  String
+  products    OrderItem[]
+  totalValue  Int
+  status      OrderStatus   @default(PROCESSING)
+  createdAt   DateTime      @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int      @default(1)
+}
+
+model Task {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  createdAt   DateTime      @default(now())
+  dueDate     DateTime
+  status      TaskStatus    @default(TODO)
+  assignees   TaskAssignment[]
+}
+
+model TaskAssignment {
+  id         String    @id @default(uuid())
+  task       Task      @relation(fields: [taskId], references: [id])
+  taskId     String
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  employeeId String
+}

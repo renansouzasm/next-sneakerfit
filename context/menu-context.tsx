@@ -1,6 +1,5 @@
 "use client";
 
-import { LayoutProps } from "@/types";
 import {
   createContext,
   Dispatch,
@@ -13,6 +12,10 @@ type MenuContextType = {
   isMenuOpen: boolean;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 };
+
+interface LayoutProps {
+  children: React.ReactNode;
+}
 
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 

@@ -1,7 +1,13 @@
 "use client";
 
-import type { Product } from "@/types";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import type { Product } from "@/app.types";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 type CartItem = Product & {
   quantity: number;
@@ -10,9 +16,10 @@ type CartItem = Product & {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  increaseQuantity: (productId: number) => void;
-  decreaseQuantity: (productId: number) => void;
+  removeFromCart: (productId: string) => void;
+  increaseQuantity: (productId: string) => void;
+  decreaseQuantity: (productId: string) => void;
+  clearCart: () => void;
   cartTotal: number;
   cartCount: number;
 }
@@ -21,6 +28,21 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      try {
+        setCartItems(JSON.parse(storedCart));
+      } catch {
+        localStorage.removeItem("cart");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
@@ -32,19 +54,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
-      } else {
-        return [...prevItems, { ...product, quantity: 1 }];
       }
+
+      return [...prevItems, { ...product, quantity: 1 }];
     });
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: string) => {
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== productId)
     );
   };
 
-  const increaseQuantity = (productId: number) => {
+  const increaseQuantity = (productId: string) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
         item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
@@ -52,7 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const decreaseQuantity = (productId: number) => {
+  const decreaseQuantity = (productId: string) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === productId);
 
@@ -62,18 +84,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
             ? { ...item, quantity: item.quantity - 1 }
             : item
         );
-      } else {
-        return prevItems.filter((item) => item.id !== productId);
       }
+      return prevItems.filter((item) => item.id !== productId);
     });
   };
+
+  const clearCart = () => setCartItems([]);
 
   const cartTotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
-  const cartCount = cartItems.length;
+  const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
   const value = {
     cartItems,
@@ -81,6 +104,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
+    clearCart,
     cartTotal,
     cartCount,
   };
@@ -90,10 +114,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useCart must be used within a CartProvider");
   }
-  
   return context;
 }
