@@ -1,29 +1,19 @@
 "use client";
 
-import AppLayout from "../_components/AppLayout";
-import MainHeader from "../_components/MainHeader";
-
-import { useCustomers } from "@/lib/hooks/useCustomers";
 import { CustomerTable } from "./_components/customer-table";
+import { EmptyData } from "../_components/empty-data";
+import { LoadingData } from "../_components/loading-data";
+import { useCustomerContext } from "../_context/CustomerContext";
 
-export default function CustomersPage() {
-  const { customers, loading, error } = useCustomers();
+export default function ProductPage() {
+  const { customers, loading } = useCustomerContext();
 
-  if (loading)
-    return (
-      <AppLayout>
-        <p className="text-gray-400">Carregando clientes</p>
-      </AppLayout>
-    );
-  if (error) return <p className="text-red-500">Erro: {error}</p>;
+  if (loading) return <LoadingData />;
+  if (!customers.length) return <EmptyData />;
 
   return (
-    <AppLayout>
-      <MainHeader title="Clientes" showAvatars={false} />
-
-      <div className="card-config overflow-x-auto">
-        <CustomerTable customers={customers} />
-      </div>
-    </AppLayout>
+    <section className="p-4 space-y-8">
+      <CustomerTable customers={customers} />
+    </section>
   );
 }

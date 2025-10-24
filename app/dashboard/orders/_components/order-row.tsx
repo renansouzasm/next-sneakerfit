@@ -1,25 +1,31 @@
-import { Order } from "@/app.types";
-import { getBadgeClass } from "@/utils/badge";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
+import { formatDate } from "@/utils/formatDate";
 import { getLabelPtbr } from "@/utils/label";
+import { OrderActions } from "./order-actions";
+import type { OrderWithDetails } from "@/hooks/useOrder";
 
-export function OrderRow({ order }: { order: Order }) {
+interface OrderRowProps {
+  order: OrderWithDetails;
+}
+
+export function OrderRow({ order }: OrderRowProps) {
   return (
-    <tr className="border-b border-[#252424] last:border-b-0 md:text-xs">
-      <td className="p-4">{order.id}</td>
-      <td className="p-4">{"nome"}</td>
-      <td className="p-4">{order.product}</td>
-      <td className="p-4">{order.value}</td>
-      <td className="p-4">
-        <span
-          className={`px-3 py-1 rounded-[20px] text-xs font-medium ${getBadgeClass(
-            "status",
-            order.status
-          )}`}
-        >
-          {getLabelPtbr(order.status)}
-        </span>
-      </td>
-      <td className="p-4">{order.date}</td>
-    </tr>
+    <TableRow>
+      <TableCell className="font-mono text-xs">
+        {order.id.substring(0, 10)}...
+      </TableCell>
+      <TableCell className="capitalize">
+        {order.customer?.name ?? "N/A"}
+      </TableCell>
+      <TableCell>{order.customer?.email ?? "N/A"}</TableCell>
+      <TableCell>{formatCurrencyBrl(order.totalValue)}</TableCell>
+      <TableCell>{getLabelPtbr(order.status!)}</TableCell>
+      <TableCell>{formatDate(order.createdAt)}</TableCell>
+
+      <TableCell className="flex justify-end">
+        <OrderActions order={order} />
+      </TableCell>
+    </TableRow>
   );
 }

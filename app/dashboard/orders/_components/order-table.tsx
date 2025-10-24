@@ -1,29 +1,39 @@
-import { Order } from "@/app.types";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { OrderRow } from "./order-row";
+import type { OrderWithDetails } from "@/hooks/useOrder";
 
-interface OrederTableProps {
-  filtered: Order[];
+interface OrderTableProps {
+  orders: OrderWithDetails[];
 }
 
-export function OrderTable({ filtered }: OrederTableProps) {
+export function OrderTable({ orders }: OrderTableProps) {
   return (
-    <table className="w-full border-collapse">
-      <thead>
-        <tr className="bg-[rgba(255,255,255,0.05)] font-semibold text-sm text-[#5c5c5c] md:text-xs">
-          <th className="p-4 text-left">ID</th>
-          <th className="p-4 text-left">Cliente</th>
-          <th className="p-4 text-left">Produto</th>
-          <th className="p-4 text-left">Valor</th>
-          <th className="p-4 text-left">Status</th>
-          <th className="p-4 text-left">Data</th>
-        </tr>
-      </thead>
+    <Table className="rounded-md overflow-hidden">
+      <TableCaption>Lista de pedidos</TableCaption>
 
-      <tbody>
-        {filtered.map((order, index) => (
-          <OrderRow key={index} order={order} />
-        ))}
-      </tbody>
-    </table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="capitalize">ID Pedido</TableHead>
+          <TableHead className="capitalize">Cliente</TableHead>
+          <TableHead className="capitalize">Email</TableHead>
+          <TableHead className="capitalize">Total</TableHead>
+          <TableHead className="capitalize">Status</TableHead>
+          <TableHead className="capitalize">Data</TableHead>
+          <TableHead className="capitalize text-right">Ações</TableHead>
+        </TableRow>
+      </TableHeader>
+
+      <TableBody>
+        {orders.length > 0 &&
+          orders.map((order) => <OrderRow key={order.id} order={order} />)}
+      </TableBody>
+    </Table>
   );
 }

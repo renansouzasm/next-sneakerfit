@@ -5,10 +5,8 @@ const labels = {
 
   PROCESSING: "processando",
   COMPLETED: "concluído",
-  CANVELED: "cancelado",
+  CANCELED: "cancelado",
 
-  active: "ativo",
-  vacation: "férias",
   ACTIVE: "ativo",
   VACATION: "férias",
 
@@ -24,5 +22,5 @@ export function getLabelPtbr(labelProp: LabelKey): string {
 }
 
 export function getLabelFormat(labelProp: string): string {
-  return labelProp.replace("-", " ");
+  return labelProp.replace("_", " ");
 }

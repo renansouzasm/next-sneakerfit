@@ -1,4 +1,4 @@
-export const formatCurrencyBrl = (priceInCents: number): string => {
+export function formatCurrencyBrl(priceInCents: number): string {
   const cents = typeof priceInCents === "number" ? priceInCents : 0;
 
   const priceInReais = cents / 100;
@@ -7,4 +7,4 @@ export const formatCurrencyBrl = (priceInCents: number): string => {
     style: "currency",
     currency: "BRL",
   }).format(priceInReais);
-};
+}

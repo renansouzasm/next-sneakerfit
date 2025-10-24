@@ -1,22 +1,26 @@
-import { Toaster } from "sonner";
-import "./globals.css";
+import { Header } from "./_components/header";
+import { DashboardSidebar } from "./_components/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
+import { DashboardContextWrapper } from "./_context/DashboardContextWrapper";
 
-export const metadata = {
-  title: "Sneakerfit dashboard",
-  description: "Dashboard administrativo para loja de tênis",
-};
-
-interface LayoutProps {
+interface DashboardLayout {
   children: React.ReactNode;
 }
 
-function RootLayout({ children }: LayoutProps) {
+export default function DashboardLayout({ children }: DashboardLayout) {
   return (
-    <>
-      {children}
-      <Toaster className="bg-red-500" />
-    </>
+    <DashboardContextWrapper>
+      <SidebarProvider>
+        <DashboardSidebar />
+
+        <SidebarInset>
+          <Header />
+
+          <main className="bg-background text-foreground">{children}</main>
+          <Toaster position="top-center" />
+        </SidebarInset>
+      </SidebarProvider>
+    </DashboardContextWrapper>
   );
 }
-
-export default RootLayout;

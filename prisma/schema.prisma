@@ -6,12 +6,24 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  CLIENT
+  EMPLOYEE
+  ADMIN
+}
+
+enum ProductBrand {
+  NIKE
+  ADIDAS
+  NEW_BALANCE
 }
 
 enum ProductStatus {
@@ -37,74 +49,105 @@ enum TaskStatus {
   DONE
 }
 
+model User {
+  id    String  @id @default(uuid())
+  email String  @unique
+  role  Role    @default(CLIENT)
+
+  employee  Employee?
+  customer  Customer?
+}
+
 model Product {
-  id        String        @id @default(uuid())
-  name      String
-  brand     String
-  imageUrl  String?
-  price     Int            
-  stock     Int            @default(0)
-  status    ProductStatus  @default(NO_STOCK)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt()
-  orders    OrderItem[]    
+  id         String         @id @default(cuid())
+  name       String
+  price      Int
+  brand      ProductBrand
+  stock      Int            @default(0)
+  status     ProductStatus  @default(NO_STOCK)
+  thumbUrl   String?
+
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  orderItems OrderItem[]
 }
 
 model Customer {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   email     String    @unique
   avatarUrl String?
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @unique
+
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt()
+  updatedAt DateTime  @updatedAt
+
   orders    Order[]
 }
 
-model Employee {
-  id        String          @id @default(uuid())
-  name      String
-  email     String          @unique
-  cpf       String          @unique
-  role      String          
-  avatarUrl String?
-  status    EmployeeStatus  @default(ACTIVE)
-  createdAt DateTime        @default(now())
-  tasks     TaskAssignment[]
-}
-
 model Order {
-  id          String        @id @default(uuid())
-  customer    Customer      @relation(fields: [customerId], references: [id])
-  customerId  String
-  products    OrderItem[]
-  totalValue  Int
-  status      OrderStatus   @default(PROCESSING)
-  createdAt   DateTime      @default(now())
+  id         String      @id @default(cuid())
+  totalValue Int
+  status     OrderStatus @default(PROCESSING)
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  customerId String
+
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  items      OrderItem[]
 }
 
 model OrderItem {
-  id        String   @id @default(uuid())
-  order     Order    @relation(fields: [orderId], references: [id])
-  orderId   String
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  quantity  Int      @default(1)
+  id         String    @id @default(cuid())
+  quantity   Int
+  itemName   String
+  itemPrice  Int
+  order      Order     @relation(fields: [orderId], references: [id])
+  orderId    String
+  product    Product?  @relation(fields: [productId], references: [id])
+  productId  String?
+
+  @@unique([orderId, productId])
+}
+
+model Employee {
+  id        String          @id @default(cuid())
+  name      String      
+  email     String          @unique
+  cpf       String          @unique
+  status    EmployeeStatus  @default(ACTIVE)
+  avatarUrl String?
+  user      User            @relation(fields: [userId], references: [id])
+  userId    String          @unique
+
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  tasks     TaskAssignment[]
 }
 
 model Task {
-  id          String        @id @default(uuid())
+  id          String      @id @default(cuid())
   title       String
   description String?
-  createdAt   DateTime      @default(now())
-  dueDate     DateTime
-  status      TaskStatus    @default(TODO)
+  status      TaskStatus  @default(TODO)
+  dueDate     DateTime?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
   assignees   TaskAssignment[]
 }
 
 model TaskAssignment {
-  id         String    @id @default(uuid())
-  task       Task      @relation(fields: [taskId], references: [id])
-  taskId     String
-  employee   Employee  @relation(fields: [employeeId], references: [id])
-  employeeId String
+  id          String    @id @default(cuid())
+  task        Task      @relation(fields: [taskId], references: [id])
+  taskId      String
+  employee    Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  employeeId  String?   
+
+  @@unique([taskId, employeeId])
 }

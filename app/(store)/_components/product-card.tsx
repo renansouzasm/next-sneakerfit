@@ -1,51 +1,78 @@
-"use client";
-
-import { ShoppingBag, Heart } from "lucide-react";
-import Image from "next/image";
-import { useCart } from "@/context/cart-context";
-import sneaker8 from "@/public/sneakers-thumbs/sneaker-1.png";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemHeader,
+  ItemTitle,
+} from "@/components/ui/item";
+import { Toggle } from "@/components/ui/toggle";
 import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
-import { Product } from "@/app.types";
+import { Product } from "@prisma/client";
+import { Heart, ShoppingBag } from "lucide-react";
+import Image from "next/image";
+import { useStoreContext } from "../_context/StoreContext";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
+  const { cartItems, addToCart, removeFromCart } = useStoreContext();
+
+  const isInCart = cartItems.some((item) => item.id === product.id);
+
+  const handleCartToggle = (pressed: boolean) => {
+    if (pressed) {
+      addToCart(product);
+    } else {
+      removeFromCart(product.id);
+    }
+  };
 
   return (
-    <article className="group">
-      <div className="mb-4 overflow-hidden">
+    <Item
+      key={product.id}
+      className="group p-0"
+    >
+      <ItemHeader className="bg-zinc-900 border-red-800 overflow-hidden relative aspect-square">
         <Image
-          src={product.imageUrl ?? sneaker8}
+          className="object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-20"
+          src={product.thumbUrl ?? "/placeholderThumb.png"}
           alt={product.name}
-          className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+          fill
         />
-      </div>
+      </ItemHeader>
 
-      <h3 className="font-medium text-center capitalize">{product.name}</h3>
+      <ItemContent className="p-4 space-y-3">
+        <div>
+          <ItemTitle className="font-semibold text-base group-hover:text-primary transition-colors">
+            <Link href={`/product/${product.id}`}>{product.name}</Link>
+          </ItemTitle>
+          <ItemDescription className="text-foreground font-bold text-lg mt-1">
+            {formatCurrencyBrl(product.price)}
+          </ItemDescription>
+        </div>
 
-      <p className="text-center text-text-light">
-        {formatCurrencyBrl(product.price)}
-      </p>
+        <div className="flex gap-2">
+          <Toggle
+            size="sm"
+            variant={"outline"}
+            className="flex-1 hover:bg-red-500 data-[state=on]:bg-red-500 transition-all"
+          >
+            <Heart className="h-4 w-4 transition-all data-[state=on]:fill-current" />
+          </Toggle>
 
-      <div className="flex justify-center gap-4 mt-4">
-        <button
-          className="bg-zinc-800 p-2 rounded-full cursor-pointer"
-          aria-label="Add to favorites"
-        >
-          <Heart size={20} />
-        </button>
-
-        <button
-          className="bg-zinc-800 p-2 rounded-full cursor-pointer"
-          aria-label="Add to cart"
-          onClick={() => addToCart(product)}
-        >
-          <ShoppingBag size={20} />
-        </button>
-      </div>
-    </article>
+          <Toggle
+            size="sm"
+            className="flex-1 bg-muted/50 hover:bg-muted data-[state=on]:bg-primary data-[state=on]:text-primary-foreground transition-all"
+            pressed={isInCart}
+            onPressedChange={handleCartToggle}
+          >
+            <ShoppingBag className="h-4 w-4" />
+          </Toggle>
+        </div>
+      </ItemContent>
+    </Item>
   );
 }

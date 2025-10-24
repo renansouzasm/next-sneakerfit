@@ -1,88 +1,36 @@
-# Next sneakerfit
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-> SneakerFit é o protótipo de uma aplicação de e-commerce e painel administrativo desenvolvida em um grupo acadêmico com Next.js 15, TypeScript e Tailwind CSS v4.
+## Getting Started
 
-<img width="400" alt="sneakerfit-pages" src="https://github.com/user-attachments/assets/38ff68c9-2827-40c7-a6b9-2ce271d6a44f" />
-
-### 🛍️ Loja (Store)
-
-- Exibição e adição de produtos ao carrinho com atendimento pelo WhatsApp
-
-### 🧾 Dashboard Administrativo
-
-- Gestão completa de produtos, clientes, pedidos, funcionários e tarefas
-- Criação, edição e exclusão (CRUD) para todas as entidades
-- Relações entre entidades, ex: Produtos ⬅️➡️ Pedidos ⬅️➡️ Clientes
-
-### ⚙️ Integração e Banco de Dados
-
-- API REST construída com Next.js Route Handlers
-- Persistência de dados com Prisma ORM
-- Banco de dados Neon Serverless Postgres (PostgreSQL na nuvem)
-- Deploy e conexões seguras com variáveis de ambiente
-
-### 🧠 Tecnologias Utilizadas
-
-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
-
-### 🚀 Guia Rápido de Instalação
-
-Instale as dependências
-
-```bash
-npm install
-```
-
-Configure as variáveis de ambiente crie um arquivo .env na raiz do projeto e adicione
-
-```.env
-DATABASE_URL="<sua url privada para conexão com um banco de dados>"
-NEXT_PUBLIC_HOST_URL="http://localhost:3000"
-```
-
-O banco de dados utilizado é o [Neon Serverless Postgres](https://neon.com), um serviço gratuito e escalável para PostgreSQL na nuvem.
-
-Execute as migrações do Prisma
-
-```bash
-npx prisma migrate dev --name init
-```
-
-Inicie o servidor de desenvolvimento
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### 📂 Estrutura do Projeto (resumo)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```txt
-src/
-├── app/
-│ ├── api/ (rotas com Prisma)
-| |
-│ ├── store/
-│ │ ├── _components/
-| | └── tasks/
-| |
-│ ├── dashboard/
-│ │ ├── _components/
-│ │ ├── products/
-│ │ ├── employees/
-│ │ ├── customers/
-│ │ ├── orders/
-│ │ └── tasks/
-| |
-├── components/
-├── lib/
-├── utils/
-└── app.types.ts/
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-📜 Licença
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Este projeto é de uso educacional e open-source.
-Sinta-se à vontade para clonar, adaptar e melhorar conforme suas necessidades. ✨
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

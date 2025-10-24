@@ -1,58 +1,36 @@
-import { Product } from "@/app.types";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Edit2 } from "lucide-react";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
-import { getLabelPtbr } from "@/utils/label";
-import { getBadgeClass } from "@/utils/badge";
-import avatar from "@/public/avatar.jpg";
-import Link from "next/link";
+import { getLabelFormat, getLabelPtbr } from "@/utils/label";
+import { ProductThumb } from "./product-thumb";
+import { ProductActions } from "./product-actions";
+import { Product } from "@prisma/client";
 
-export function ProductRow({ product }: { product: Product }) {
+interface ProductRowProps {
+  product: Product;
+}
+
+export function ProductRow({ product }: ProductRowProps) {
   return (
-    <tr className="border-b border-[#252424] last:border-b-0 md:text-xs">
-      <td className="p-4">
-        <Image
-          src={product.imageUrl || avatar}
-          alt={product.name}
-          width={32}
-          height={32}
-          className="rounded-md border border-[#1f1f1f] object-cover"
-        />
-      </td>
-      <td className="p-4 capitalize">{product.name}</td>
-      <td className="p-4 capitalize">
-        {" "}
-        <span
-          className={`px-3 py-1 rounded-[20px] text-xs font-medium ${getBadgeClass(
-            "brand",
-            product.brand
-          )}`}
-        >
-          {product.brand}
-        </span>
-      </td>
-      <td className="p-4">{formatCurrencyBrl(product.price)}</td>
-      <td className="p-4">{product.stock}</td>
-      <td className="p-4">
-        <span
-          className={`px-3 py-1 rounded-[20px] text-xs font-medium ${getBadgeClass(
-            "status",
-            product.status
-          )}`}
-        >
-          {getLabelPtbr(product.status)}
-        </span>
-      </td>
-      <td className="p-4">
-        <Button className="bg-blue-500/30 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 cursor-pointer">
-          <Link
-            href={`${process.env.NEXT_PUBLIC_HOST_URL}/dashboard/products/${product.id}/edit`}
-          >
-            <Edit2 />
-          </Link>
-        </Button>
-      </td>
-    </tr>
+    <TableRow>
+      <TableCell className="px-6 py-4">
+        <ProductThumb thumb={product.thumbUrl} />
+      </TableCell>
+
+      <TableCell className="px-6 py-4 capitalize">{product.name}</TableCell>
+      <TableCell className="px-6 py-4 capitalize">
+        {getLabelFormat(product.brand)}
+      </TableCell>
+      <TableCell className="px-6 py-4">
+        {formatCurrencyBrl(product.price)}
+      </TableCell>
+      <TableCell className="px-6 py-4">{product.stock}</TableCell>
+      <TableCell className="px-6 py-4">
+        {getLabelPtbr(product.status!)}
+      </TableCell>
+
+      <TableCell className="px-6 py-4 flex justify-end">
+        <ProductActions product={product} />
+      </TableCell>
+    </TableRow>
   );
 }

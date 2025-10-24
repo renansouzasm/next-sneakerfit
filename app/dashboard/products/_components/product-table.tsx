@@ -1,5 +1,13 @@
-import { Product } from "@/app.types";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { ProductRow } from "./product-row";
+import { Product } from "@prisma/client";
 
 interface ProductTableProps {
   products: Product[];
@@ -7,24 +15,41 @@ interface ProductTableProps {
 
 export function ProductTable({ products }: ProductTableProps) {
   return (
-    <table className="w-full border-collapse">
-      <thead>
-        <tr className="bg-[rgba(255,255,255,0.05)] font-semibold text-sm text-[#5c5c5c] md:text-xs">
-          <th className="p-4 text-left">Imagem</th>
-          <th className="p-4 text-left">Nome</th>
-          <th className="p-4 text-left">Marca</th>
-          <th className="p-4 text-left">Preço</th>
-          <th className="p-4 text-left">Estoque</th>
-          <th className="p-4 text-left">Status</th>
-          <th className="p-4 text-left">Ações</th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        {products.map((product, index) => (
-          <ProductRow key={index} product={product} />
-        ))}
-      </tbody>
-    </table>
+    <Table className="text-foreground">
+      <TableCaption>Lista de produtos</TableCaption>
+
+      <TableHeader>
+        <TableRow>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            imagem
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            nome
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            marca
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            preço
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            estoque
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold">
+            status
+          </TableHead>
+          <TableHead className="px-6 py-4 text-foreground/50 capitalize font-bold text-right">
+            ações
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+
+      <TableBody>
+        {products.length > 0 &&
+          products.map((product) => (
+            <ProductRow key={product.id} product={product} />
+          ))}
+      </TableBody>
+    </Table>
   );
 }
