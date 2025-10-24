@@ -22,11 +22,9 @@ export default function StoreLayout({ children }: Readonly<LayoutProps>) {
         <StoreSidebar />
 
         <SidebarInset>
-          <div className="h-full w-full bg-zinc-950 text-gray-300">
-            <Header />
+          <Header />
 
-            {children}
-          </div>
+          {children}
         </SidebarInset>
 
         <Toaster position="top-center" />

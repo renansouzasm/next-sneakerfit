@@ -12,7 +12,7 @@ interface ProductRowProps {
 export function ProductRow({ product }: ProductRowProps) {
   return (
     <TableRow>
-      <TableCell className="px-6 py-4">
+      <TableCell className="px-6 py-4 capitalize">
         <ProductThumb thumb={product.thumbUrl} />
       </TableCell>
 
@@ -20,15 +20,15 @@ export function ProductRow({ product }: ProductRowProps) {
       <TableCell className="px-6 py-4 capitalize">
         {getLabelFormat(product.brand)}
       </TableCell>
-      <TableCell className="px-6 py-4">
+      <TableCell className="px-6 py-4 capitalize">
         {formatCurrencyBrl(product.price)}
       </TableCell>
-      <TableCell className="px-6 py-4">{product.stock}</TableCell>
-      <TableCell className="px-6 py-4">
+      <TableCell className="px-6 py-4 capitalize">{product.stock}</TableCell>
+      <TableCell className="px-6 py-4 capitalize">
         {getLabelPtbr(product.status!)}
       </TableCell>
 
-      <TableCell className="px-6 py-4 flex justify-end">
+      <TableCell className="px-6 py-4 capitalize flex justify-end">
         <ProductActions product={product} />
       </TableCell>
     </TableRow>

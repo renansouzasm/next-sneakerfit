@@ -17,9 +17,10 @@ export default function DashboardLayout({ children }: DashboardLayout) {
         <SidebarInset>
           <Header />
 
-          <main className="bg-background text-foreground">{children}</main>
-          <Toaster position="top-center" />
+          {children}
         </SidebarInset>
+
+        <Toaster position="top-center" />
       </SidebarProvider>
     </DashboardContextWrapper>
   );

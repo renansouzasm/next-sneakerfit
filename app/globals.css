@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -76,7 +76,7 @@
 }
 
 @theme inline {
-  --font-roboto: "Roboto", Arial, "sans-serif";
+  --font-archivo-black: "Archivo Black", Arial, "sans-serif";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -131,6 +131,6 @@
 
 @layer components {
   .layout-size {
-    @apply mx-auto w-full max-w-9/10 md:max-w-8/10;
+    @apply px-4 sm:px-12 md:px-12;
   }
 }

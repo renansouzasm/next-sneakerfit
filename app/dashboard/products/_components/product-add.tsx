@@ -117,7 +117,12 @@ export function ProductAdd() {
   return (
     <Sheet open={isOpen} onOpenChange={setisOpen}>
       <SheetTrigger asChild>
-        <Button onClick={() => setisOpen(true)}>Adicionar Produto</Button>
+        <Button
+          className="text-foreground font-semibold tracking-wider cursor-pointer"
+          onClick={() => setisOpen(true)}
+        >
+          + Adicionar Produto
+        </Button>
       </SheetTrigger>
 
       <SheetContent className="p-4 overflow-y-auto">
