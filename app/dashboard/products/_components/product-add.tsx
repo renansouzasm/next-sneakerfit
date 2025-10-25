@@ -125,7 +125,7 @@ export function ProductAdd() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="p-4 overflow-y-auto">
+      <SheetContent className="text-foreground p-4 overflow-y-auto">
         <SheetHeader className="p-0">
           <SheetTitle>Adicionar produto</SheetTitle>
           <SheetDescription>
@@ -137,14 +137,15 @@ export function ProductAdd() {
           <div className="grid gap-4">
             <Label htmlFor="thumbUrl">Imagem</Label>
             <Image
+              className="aspect-square w-20 rounded-lg object-cover"
               src={preview}
               alt="Preview do produto"
               width={80}
               height={80}
               unoptimized
-              className="aspect-square w-20 rounded-md object-cover"
             />
             <Input
+              className="bg-card/25 border-card"
               ref={fileRef}
               id="thumbUrl"
               type="file"
@@ -156,6 +157,7 @@ export function ProductAdd() {
           <div className="grid gap-2">
             <Label htmlFor="name">Nome</Label>
             <Input
+              className="bg-card/25 border-card"
               id="name"
               value={form.name}
               onChange={handleChange}
@@ -188,6 +190,7 @@ export function ProductAdd() {
             <div className="grid gap-2">
               <Label htmlFor="price">Preço (R$)</Label>
               <Input
+                className="bg-card/25 border-card"
                 id="price"
                 type="number"
                 step="0.01"
@@ -202,6 +205,7 @@ export function ProductAdd() {
             <div className="grid gap-2">
               <Label htmlFor="stock">Estoque</Label>
               <Input
+                className="bg-card/25 border-card"
                 id="stock"
                 type="number"
                 min="0"
@@ -214,10 +218,10 @@ export function ProductAdd() {
 
           <SheetFooter className="p-0 flex justify-between">
             <SheetClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button className="cursor-pointer" variant="outline">Cancelar</Button>
             </SheetClose>
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button className="cursor-pointer" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Salvando..." : "Salvar"}
             </Button>
           </SheetFooter>

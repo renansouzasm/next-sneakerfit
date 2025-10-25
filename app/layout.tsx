@@ -13,7 +13,7 @@ interface LayoutProps {
 export default function RootLayout({ children }: Readonly<LayoutProps>) {
   return (
     <html lang="en">
-      <body className="min-h-screen font-archivo-black">{children}</body>
+      <body className="font-archivo-black">{children}</body>
     </html>
   );
 }

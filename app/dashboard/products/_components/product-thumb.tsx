@@ -9,12 +9,12 @@ export function ProductThumb({ thumb }: ProductThumbProps) {
   const placeholderThumb = "/placeholderThumb.jpg";
 
   return (
-    <Avatar className="bg-card/50 h-16 w-16">
+    <Avatar className="bg-card/50 rounded-lg h-16 w-16">
       <AvatarImage
         className="object-contain"
         src={String(thumb) ?? placeholderThumb}
       />
-      <AvatarFallback>PH</AvatarFallback>
+      <AvatarFallback className="rounded-lg">PH</AvatarFallback>
     </Avatar>
   );
 }

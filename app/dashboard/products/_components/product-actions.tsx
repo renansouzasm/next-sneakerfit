@@ -136,12 +136,15 @@ export function ProductActions({ product }: ProductActionsProps) {
     <div className="space-x-2">
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button className="text-foreground cursor-pointer" onClick={() => setIsOpen(true)}>
+          <Button
+            className="text-foreground cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
             <Pencil />
           </Button>
         </SheetTrigger>
 
-        <SheetContent className="p-4 overflow-y-auto">
+        <SheetContent className="text-foreground p-4 overflow-y-auto">
           <SheetHeader className="p-0">
             <SheetTitle>Editar produto</SheetTitle>
             <SheetDescription>
@@ -153,14 +156,15 @@ export function ProductActions({ product }: ProductActionsProps) {
             <div className="grid gap-4">
               <Label htmlFor="thumbUrl">Imagem</Label>
               <Image
+                className="rounded-lg aspect-square w-20 object-cover"
                 src={preview}
                 alt="Produto"
                 width={80}
                 height={80}
                 unoptimized
-                className="aspect-square w-20 rounded-md object-cover"
               />
               <Input
+                className="bg-card/25 border-card"
                 ref={fileRef}
                 id="thumbUrl"
                 type="file"
@@ -172,6 +176,7 @@ export function ProductActions({ product }: ProductActionsProps) {
             <div className="grid gap-2">
               <Label htmlFor="name">Nome</Label>
               <Input
+                className="bg-card/25 border-card"
                 id="name"
                 value={form.name}
                 onChange={handleChange}
@@ -200,6 +205,7 @@ export function ProductActions({ product }: ProductActionsProps) {
               <div className="grid gap-2">
                 <Label htmlFor="price">Preço (R$)</Label>
                 <Input
+                  className="bg-card/25 border-card"
                   id="price"
                   type="number"
                   step="0.01"
@@ -213,6 +219,7 @@ export function ProductActions({ product }: ProductActionsProps) {
               <div className="grid gap-2">
                 <Label htmlFor="stock">Estoque</Label>
                 <Input
+                  className="bg-card/25 border-card"
                   id="stock"
                   type="number"
                   min="0"
@@ -225,10 +232,16 @@ export function ProductActions({ product }: ProductActionsProps) {
 
             <SheetFooter className="p-0 flex justify-between">
               <SheetClose asChild>
-                <Button variant="outline">Cancelar</Button>
+                <Button className="cursor-pointer" variant="outline">
+                  Cancelar
+                </Button>
               </SheetClose>
 
-              <Button type="submit" disabled={isSubmitting}>
+              <Button
+                className="cursor-pointer"
+                type="submit"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Salvando..." : "Salvar"}
               </Button>
             </SheetFooter>

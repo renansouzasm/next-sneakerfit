@@ -50,7 +50,7 @@ export function CartDrawer() {
 
   return (
     <Drawer>
-      <DrawerTrigger className="button-style relative">
+      <DrawerTrigger className="text-foreground bg-card hover:bg-primary hover:text-secondary cursor-pointer size-10 rounded-lg flex items-center justify-center relative">
         <ShoppingBag />
         {cartCount > 0 && (
           <Badge
@@ -62,7 +62,7 @@ export function CartDrawer() {
         )}
       </DrawerTrigger>
 
-      <DrawerContent className="h-fit border-t-0">
+      <DrawerContent className="layout-size text-foreground">
         <DrawerHeader className="border-b border-border/50">
           <DrawerTitle className="text-xl">Carrinho de compras</DrawerTitle>
           <DrawerDescription>
@@ -99,7 +99,7 @@ export function CartDrawer() {
             </span>
           </div>
           <Button
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            className="text-foreground cursor-pointer font-semibold tracking-wider"
             onClick={handleCheckout}
             disabled={cartItems.length === 0}
           >
@@ -107,10 +107,7 @@ export function CartDrawer() {
           </Button>
 
           <DrawerClose asChild>
-            <Button
-              variant="ghost"
-              className="hover:bg-transparent hover:text-muted-foreground"
-            >
+            <Button className="cursor-pointer tracking-wider" variant="outline">
               Continuar Comprando
             </Button>
           </DrawerClose>
@@ -147,9 +144,7 @@ function ListItem({ cartItem }: { cartItem: CartItem }) {
           size="icon"
           variant="ghost"
           className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
-          onClick={() =>
-            updateItemQuantity(cartItem.id, cartItem.quantity - 1)
-          }
+          onClick={() => updateItemQuantity(cartItem.id, cartItem.quantity - 1)}
         >
           {cartItem.quantity > 1 ? (
             <Minus className="h-4 w-4" />
@@ -166,9 +161,7 @@ function ListItem({ cartItem }: { cartItem: CartItem }) {
           size="icon"
           variant="ghost"
           className="h-8 w-8 rounded-full hover:bg-primary/20 hover:text-primary"
-          onClick={() =>
-            updateItemQuantity(cartItem.id, cartItem.quantity + 1)
-          }
+          onClick={() => updateItemQuantity(cartItem.id, cartItem.quantity + 1)}
         >
           <Plus className="h-4 w-4" />
         </Button>

@@ -1,78 +1,70 @@
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemHeader,
-  ItemTitle,
-} from "@/components/ui/item";
-import { Toggle } from "@/components/ui/toggle";
-import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
+"use client";
+
+import { useState } from "react";
+import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Product } from "@prisma/client";
-import { Heart, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import { useStoreContext } from "../_context/StoreContext";
-import Link from "next/link";
 
 interface ProductCardProps {
   product: Product;
+  onFavoriteToggle?: (productId: string, isFavorite: boolean) => void;
+  className?: string;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
-  const { cartItems, addToCart, removeFromCart } = useStoreContext();
+export function ProductCard({
+  product,
+  onFavoriteToggle,
+  className,
+}: ProductCardProps) {
+  const placeholderThumb =
+    "https://twftinvtkstgcriamblf.supabase.co/storage/v1/object/public/placeholders/placeholderThumb.jpg";
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const isInCart = cartItems.some((item) => item.id === product.id);
+  const handleFavoriteClick = () => {
+    const newFavoriteState = !isFavorite;
+    setIsFavorite(newFavoriteState);
+    onFavoriteToggle?.(product.id, newFavoriteState);
+  };
 
-  const handleCartToggle = (pressed: boolean) => {
-    if (pressed) {
-      addToCart(product);
-    } else {
-      removeFromCart(product.id);
-    }
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(price);
   };
 
   return (
-    <Item
-      key={product.id}
-      className="group p-0"
+    <div
+      className={cn(
+        "group relative overflow-hidden rounded-xl bg-card/25 border border-card transition-all duration-300",
+        className
+      )}
     >
-      <ItemHeader className="bg-zinc-900 border-red-800 overflow-hidden relative aspect-square">
+      <div className="relative aspect-square overflow-hidden bg-muted/30">
         <Image
-          className="object-contain transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-20"
-          src={product.thumbUrl ?? "/placeholderThumb.png"}
+          src={product.thumbUrl || placeholderThumb}
           alt={product.name}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           fill
         />
-      </ItemHeader>
+      </div>
 
-      <ItemContent className="p-4 space-y-3">
-        <div>
-          <ItemTitle className="font-semibold text-base group-hover:text-primary transition-colors">
-            <Link href={`/product/${product.id}`}>{product.name}</Link>
-          </ItemTitle>
-          <ItemDescription className="text-foreground font-bold text-lg mt-1">
-            {formatCurrencyBrl(product.price)}
-          </ItemDescription>
+      {/* Product Info */}
+      <div className="space-y-2 p-4">
+        <h3 className="text-balance text-lg font-semibold leading-tight text-foreground transition-colors group-hover:text-primary">
+          {product.name}
+        </h3>
+
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-primary">
+            {formatPrice(product.price)}
+          </span>
         </div>
+      </div>
 
-        <div className="flex gap-2">
-          <Toggle
-            size="sm"
-            variant={"outline"}
-            className="flex-1 hover:bg-red-500 data-[state=on]:bg-red-500 transition-all"
-          >
-            <Heart className="h-4 w-4 transition-all data-[state=on]:fill-current" />
-          </Toggle>
-
-          <Toggle
-            size="sm"
-            className="flex-1 bg-muted/50 hover:bg-muted data-[state=on]:bg-primary data-[state=on]:text-primary-foreground transition-all"
-            pressed={isInCart}
-            onPressedChange={handleCartToggle}
-          >
-            <ShoppingBag className="h-4 w-4" />
-          </Toggle>
-        </div>
-      </ItemContent>
-    </Item>
+      {/* Hover Overlay Effect */}
+      <div className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-transparent transition-all duration-300 group-hover:ring-primary/20" />
+    </div>
   );
 }

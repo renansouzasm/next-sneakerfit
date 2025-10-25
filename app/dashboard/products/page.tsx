@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductTable } from "./_components/product-table";
-import { EmptyData } from "../_components/empty-data";
+import { EmptyData } from "./_components/empty-data";
 import { LoadingData } from "../_components/loading-data";
 import { useProductContext } from "../_context/ProductContext";
 import { ProductAdd } from "./_components/product-add";
