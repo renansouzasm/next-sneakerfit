@@ -99,14 +99,19 @@ export function useTask(): UseTaskType {
       displayErrorToast(errorMessage);
       setError(errorMessage);
       return;
-    } else if (response.data) {
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === response.data.id ? { ...task, ...response.data } : task
-        )
-      );
-      displaySuccessToast("Tarefa atualizada com sucesso!");
     }
+
+    if (!response.data) {
+      displayErrorToast("Erro ao atualizar a tarefa.");
+      return;
+    }
+
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === response.data!.id ? { ...task, ...response.data! } : task
+      )
+    );
+    displaySuccessToast("Tarefa atualizada com sucesso!");
   }
 
   async function deleteTask(deleteId: string): Promise<void> {
