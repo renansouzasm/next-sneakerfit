@@ -1,3 +1,3 @@
 export default function DashboardPage() {
-  return <section>Home</section>;
+  return <div>oi</div>;
 }

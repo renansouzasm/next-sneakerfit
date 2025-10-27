@@ -1,6 +1,3 @@
-import { FolderOpen } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -9,29 +6,35 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { ProductAdd } from "@/app/dashboard/products/_components/product-add";
+import { Button } from "@/components/ui/button";
+import { FolderOpen } from "lucide-react";
 import Link from "next/link";
 
-export function EmptyData() {
+interface EmptyDataProps {
+  children?: React.ReactNode;
+  title: string;
+  message: string;
+}
+
+export function EmptyData({ children, title, message }: EmptyDataProps) {
   return (
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <FolderOpen />
         </EmptyMedia>
-        <EmptyTitle>No Projects Yet</EmptyTitle>
-        <EmptyDescription>
-          You haven&apos;t created any projects yet. Get started by creating
-          your first project.
-        </EmptyDescription>
+
+        <EmptyTitle>{title}</EmptyTitle>
+        <EmptyDescription>{message}</EmptyDescription>
       </EmptyHeader>
 
       <EmptyContent>
         <div className="flex gap-2">
-          <ProductAdd />
-          <Link href={"/"}>
+          {children}
+
+          <Link href={"/dashboard"}>
             <Button className="cursor-pointer" variant="outline">
-              Voltar Para a Home
+              Home
             </Button>
           </Link>
         </div>

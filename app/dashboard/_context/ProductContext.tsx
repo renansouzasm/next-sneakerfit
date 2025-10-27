@@ -1,7 +1,11 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
-import { useProduct } from "@/hooks/useProduct";
+import {
+  createContext,
+  useContext,
+  ReactNode,
+} from "react";
+import { useProduct } from "@/hooks/use-product";
 import type { Product } from "@prisma/client";
 import {
   ProductCreateForm,
@@ -18,7 +22,7 @@ interface ProductContextType {
   error: string | null;
   createProduct: (newProduct: ProductCreateForm) => Promise<void>;
   updateProduct: (updatedProduct: ProductUpdateForm) => Promise<void>;
-  deleteProduct: (id: string) => Promise<void>;
+  deleteProduct: (deleteId: string) => Promise<void>;
   findProduct: (getProductId: string) => Promise<Product | null | undefined>;
 }
 

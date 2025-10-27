@@ -1,15 +1,12 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  SetStateAction,
-  Dispatch,
-} from "react";
-import { useProduct } from "@/hooks/useProduct";
+import { createContext, useContext, ReactNode } from "react";
+import { useProduct } from "@/hooks/use-product";
 import type { Product } from "@prisma/client";
+import {
+  ProductCreateForm,
+  ProductUpdateForm,
+} from "@/lib/schemas/product-schema";
 
 interface ContextProps {
   children: ReactNode;
@@ -19,15 +16,24 @@ interface ProductContextType {
   products: Product[];
   loading: boolean;
   error: string | null;
-  cartItems: Product[];
-  setCartItems: Dispatch<SetStateAction<Product[]>>;
+  createProduct: (newProduct: ProductCreateForm) => Promise<void>;
+  updateProduct: (updatedProduct: ProductUpdateForm) => Promise<void>;
+  deleteProduct: (deleteId: string) => Promise<void>;
+  findProduct: (getProductId: string) => Promise<Product | null | undefined>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export function ProductProvider({ children }: ContextProps) {
-  const { products, loading, error } = useProduct();
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const {
+    products,
+    loading,
+    error,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    findProduct,
+  } = useProduct();
 
   return (
     <ProductContext.Provider
@@ -35,8 +41,10 @@ export function ProductProvider({ children }: ContextProps) {
         products,
         loading,
         error,
-        cartItems,
-        setCartItems,
+        createProduct,
+        updateProduct,
+        deleteProduct,
+        findProduct,
       }}
     >
       {children}

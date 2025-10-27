@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useCustomer } from "@/hooks/useCustomer";
+import { useCustomer } from "@/hooks/use-customer";
 import type { Customer } from "@prisma/client";
 import {
   CustomerCreateForm,
@@ -18,7 +18,7 @@ interface CustomerContextType {
   error: string | null;
   createCustomer: (newCustomer: CustomerCreateForm) => Promise<void>;
   updateCustomer: (updatedCustomer: CustomerUpdateForm) => Promise<void>;
-  deleteCustomer: (id: string) => Promise<void>;
+  deleteCustomer: (deleteId: string) => Promise<void>;
   findCustomer: (getCustomerId: string) => Promise<Customer | null | undefined>;
 }
 

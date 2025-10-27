@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -16,18 +14,13 @@ export function LoadingData() {
         <EmptyMedia variant="icon">
           <Spinner />
         </EmptyMedia>
-        
-        <EmptyTitle>Processing your request</EmptyTitle>
+
+        <EmptyTitle>Carregando Informações</EmptyTitle>
+
         <EmptyDescription>
-          Please wait while we process your request. Do not refresh the page.
+          Aguarde enquanto processamos sua solicitação. Não atualize a página.
         </EmptyDescription>
       </EmptyHeader>
-
-      <EmptyContent>
-        <Button variant="outline" size="sm">
-          Cancel
-        </Button>
-      </EmptyContent>
     </Empty>
   );
 }

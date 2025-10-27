@@ -20,7 +20,8 @@ const productBaseSchema = z.object({
     .int({ message: "Estoque precisa ser um número inteiro." })
     .min(0, { message: "Estoque não pode ser negativo." }),
 
-  thumbUrl: z.string().url({ message: "URL da imagem inválida." }).nullable(),
+  thumbUrl: z.string().nullable(),
+  // thumbUrl: z.string().url({ message: "URL da imagem inválida." }).nullable(),
 });
 
 export const productCreateSchema = productBaseSchema;

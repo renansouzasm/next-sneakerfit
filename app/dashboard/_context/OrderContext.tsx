@@ -1,30 +1,41 @@
 "use client";
 
+import {
+  useOrder,
+  OrderWithSummary,
+  FullDetailedOrder,
+} from "@/hooks/use-order";
 import { createContext, useContext, ReactNode } from "react";
-import { useOrder } from "@/hooks/useOrder";
-import type { OrderWithDetails } from "@/hooks/useOrder";
-import type { OrderUpdateForm } from "@/lib/schemas/order-schema";
+import { OrderCreateForm, OrderUpdateForm } from "@/lib/schemas/order-schema";
 
 interface ContextProps {
   children: ReactNode;
 }
 
 interface OrderContextType {
-  orders: OrderWithDetails[];
+  orders: OrderWithSummary[];
   loading: boolean;
   error: string | null;
+  createOrder: (newOrder: OrderCreateForm) => Promise<void>;
   updateOrder: (updatedOrder: OrderUpdateForm) => Promise<void>;
-  deleteOrder: (id: string) => Promise<void>;
+  deleteOrder: (deleteId: string) => Promise<void>;
   findOrder: (
     getOrderId: string
-  ) => Promise<OrderWithDetails | null | undefined>;
+  ) => Promise<FullDetailedOrder | null | undefined>;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 export function OrderProvider({ children }: ContextProps) {
-  const { orders, loading, error, updateOrder, deleteOrder, findOrder } =
-    useOrder();
+  const {
+    orders,
+    loading,
+    error,
+    createOrder,
+    updateOrder,
+    deleteOrder,
+    findOrder,
+  } = useOrder();
 
   return (
     <OrderContext.Provider
@@ -32,6 +43,7 @@ export function OrderProvider({ children }: ContextProps) {
         orders,
         loading,
         error,
+        createOrder,
         updateOrder,
         deleteOrder,
         findOrder,

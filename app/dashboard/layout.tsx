@@ -1,27 +1,36 @@
-import { Header } from "./_components/header";
-import { DashboardSidebar } from "./_components/sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Toaster } from "@/components/ui/sonner";
-import { DashboardContextWrapper } from "./_context/DashboardContextWrapper";
+"use client";
 
-interface DashboardLayout {
+import type React from "react";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { DashboardSidebar } from "./_components/dashboard-sidebar";
+import { ContextWrapper } from "./_context/ContextWrapper";
+import { ThemeToggleButton } from "@/components/theme-toggle-button";
+
+interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function DashboardLayout({ children }: DashboardLayout) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <DashboardContextWrapper>
+    <ContextWrapper>
       <SidebarProvider>
-        <DashboardSidebar />
+        <div className="flex min-h-screen w-full">
+          <DashboardSidebar />
 
-        <SidebarInset>
-          <Header />
+          <main className="flex-1">
+            <div className="flex flex-col">
+              <header className="sticky top-0 z-10 flex justify-between h-16 items-center gap-4 border-b border-border bg-background px-6">
+                <SidebarTrigger className="cursor-pointer" />
 
-          {children}
-        </SidebarInset>
+                <ThemeToggleButton />
+              </header>
 
-        <Toaster position="top-center" />
+              <div className="flex-1 p-6">{children}</div>
+            </div>
+          </main>
+        </div>
       </SidebarProvider>
-    </DashboardContextWrapper>
+    </ContextWrapper>
   );
 }
