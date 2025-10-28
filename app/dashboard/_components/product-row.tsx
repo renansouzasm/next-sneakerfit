@@ -54,12 +54,18 @@ export function ProductRow({ product }: RowProps) {
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={() => setIsUpdating(true)}>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setIsUpdating(true)}
+            >
               <Pencil />
               Editar
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => setIsDeleting(true)}>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setIsDeleting(true)}
+            >
               <Trash2 />
               Deletar
             </DropdownMenuItem>

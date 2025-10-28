@@ -7,8 +7,11 @@ const customerBaseSchema = z.object({
 
   email: z.string().email({ message: "E-mail inválido." }),
 
-  avatarUrl: z.string().nullable(),
-  // avatarUrl: z.string().url({ message: "URL do avatar inválida." }).nullable(),
+  avatarUrl: z
+    .string()
+    .url({ message: "URL do avatar inválida." })
+    .nullable()
+    .optional(),
 });
 
 export const customerCreateSchema = customerBaseSchema;

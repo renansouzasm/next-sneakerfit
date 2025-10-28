@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProductContext } from "../_context/ProductContext";
 import { ProductCreationForm } from "../_components/product-creation-form";
@@ -8,6 +8,7 @@ import { ProductTable } from "../_components/product-table";
 import { useState } from "react";
 import { LoadingData } from "../_components/loading-data";
 import { EmptyData } from "../_components/empty-data";
+import { exportToPDF } from "@/utils/exportToPdf";
 
 export default function ProductsPage() {
   const { products, loading } = useProductContext();
@@ -28,10 +29,24 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        <Button className="cursor-pointer" onClick={() => setIsCreating(true)}>
-          <Plus />
-          Novo Produto
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => exportToPDF(products, "relatorio-sneakerfit")}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Exportar PDF
+          </Button>
+
+          <Button
+            className="cursor-pointer"
+            onClick={() => setIsCreating(true)}
+          >
+            <Plus />
+            Novo Produto
+          </Button>
+        </div>
       </div>
 
       {loading ? (

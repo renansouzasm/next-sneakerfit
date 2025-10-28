@@ -116,7 +116,18 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--muted-foreground);
+  border-radius: 1000px;
 }

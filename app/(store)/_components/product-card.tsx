@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
 import { Product } from "@prisma/client";
+import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
 interface ProductCardProps {
@@ -24,7 +26,7 @@ export function ProductCard({ product }: ProductCardProps) {
         />
       </div>
 
-      <div className="p-6">
+      <div className="p-4">
         <div className="mb-3 flex items-start justify-between gap-4">
           <h3 className="text-balance text-lg font-semibold leading-tight text-foreground">
             {product.name}
@@ -34,6 +36,12 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="text-base font-medium text-foreground">
           {formatCurrencyBrl(product.price)}
         </p>
+      </div>
+
+      <div className="flex p-4 justify-end">
+        <Button className="cursor-pointer">
+          <ShoppingBag />
+        </Button>
       </div>
     </div>
   );

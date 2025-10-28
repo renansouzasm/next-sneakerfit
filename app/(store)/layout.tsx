@@ -5,6 +5,7 @@ import { ContextWrapper } from "./_context/ContextWrapper";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreSidebar } from "./_components/store-sidebar";
 import { ThemeToggleButton } from "@/components/theme-toggle-button";
+import { CartSheet } from "./_components/cart-sheet";
 
 interface StoreLayoutProps {
   children: React.ReactNode;
@@ -22,7 +23,11 @@ export default function StoreLayout({ children }: StoreLayoutProps) {
               <header className="sticky top-0 z-50 flex justify-between h-16 items-center gap-4 bg-background px-6">
                 <SidebarTrigger className="cursor-pointer" />
 
-                <ThemeToggleButton />
+                <div className="flex gap-2">
+                  <CartSheet />
+
+                  <ThemeToggleButton />
+                </div>
               </header>
 
               <div className="flex-1 p-6">{children}</div>

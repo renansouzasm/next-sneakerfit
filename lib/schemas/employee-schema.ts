@@ -14,8 +14,11 @@ const employeeBaseSchema = z.object({
     message: "Status inválido.",
   }),
 
-  avatarUrl: z.string().nullable(),
-  // avatarUrl: z.string().url({ message: "URL do avatar inválida." }).nullable(),
+  avatarUrl: z
+    .string()
+    .url({ message: "URL do avatar inválida." })
+    .nullable()
+    .optional(),
 });
 
 export const employeeCreateSchema = employeeBaseSchema;

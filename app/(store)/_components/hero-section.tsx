@@ -20,7 +20,7 @@ export function HeroSection() {
 
             <div>
               <Link href={"#collection"}>
-                <Button className="cursor-pointer">
+                <Button className="rounded-full cursor-pointer">
                   Explorar
                   <ArrowUpRight />
                 </Button>
