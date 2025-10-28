@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
 import { Product } from "@prisma/client";
-import { ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
 interface ProductCardProps {
@@ -17,28 +17,34 @@ export function ProductCard({ product }: ProductCardProps) {
         </span>
       </div>
 
-      <div className="relative w-full aspect-square overflow-hidden bg-gray-200">
-        <Image
-          className="object-contain transition-transform duration-300 group-hover:scale-110"
-          src={product.thumbUrl || "/placeholder.svg"}
-          alt={product.name}
-          fill
-        />
-      </div>
-
-      <div className="p-4">
-        <div className="mb-3 flex items-start justify-between gap-4">
-          <h3 className="text-balance text-lg font-semibold leading-tight text-foreground">
-            {product.name}
-          </h3>
+      <div className="min-h-72">
+        <div className="relative w-full h-42 aspect-square overflow-hidden">
+          <Image
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+            src={product.thumbUrl || "/placeholder.svg"}
+            alt={product.name}
+            fill
+          />
         </div>
 
-        <p className="text-base font-medium text-foreground">
-          {formatCurrencyBrl(product.price)}
-        </p>
+        <div className="p-4">
+          <div className="mb-3 flex items-start justify-between gap-4">
+            <h3 className="text-balance text-lg font-semibold leading-tight text-foreground line-clamp-2">
+              {product.name}
+            </h3>
+          </div>
+
+          <p className="text-base font-medium text-foreground">
+            {formatCurrencyBrl(product.price)}
+          </p>
+        </div>
       </div>
 
-      <div className="flex p-4 justify-end">
+      <div className="flex p-4 justify-end gap-2">
+        <Button className="hover:text-red-600 cursor-pointer" variant="outline">
+          <Heart />
+        </Button>
+
         <Button className="cursor-pointer">
           <ShoppingBag />
         </Button>

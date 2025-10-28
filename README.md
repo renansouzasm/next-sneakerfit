@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next sneakerfit
 
-## Getting Started
+> Sneakerfit é um projeto acadêmico full stack para gestão completa (CRUD) de produtos, clientes, pedidos e funcionários. Desenvolvido com Next.js, TypeScript, TailwindCSS, Prisma (ORM) e Supabase (PostgreSQL)
 
-First, run the development server:
+### Tecnologias
+
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+
+### 🚀 Guia rápido de instalação
+
+1. Instale as dependências/pacotes do projeto.
+
+```bash
+npm install
+```
+
+2. Para configurar as variáveis de ambiente, crie um arquivo **.env** na raiz do projeto e adicione suas chaves do Supabase.
+
+```env
+# Connect to Supabase via connection pooling
+DATABASE_URL=""
+
+# Direct connection to the database. Used for migrations
+DIRECT_URL=""
+
+NEXT_PUBLIC_SUPABASE_URL=""
+NEXT_PUBLIC_SUPABASE_ANON_KEY=""
+
+SUPABASE_SERVICE_ROLE_KEY=""
+```
+
+3. Inicie o servidor de desenvolvimento:
+   npm run dev
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🖼️ Imagens, referências e inspirações
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Design: [Dribbble](https://dribbble.com/shots/26450120-TSSF-Shoes-Shoes-Store-Website?utm_source=Clipboard_Shot&utm_campaign=emilyjohansson&utm_content=TSSF%20Shoes%20-%20Shoes%20Store%20Website&utm_medium=Social_Share&utm_source=Clipboard_Shot&utm_campaign=emilyjohansson&utm_content=TSSF%20Shoes%20-%20Shoes%20Store%20Website&utm_medium=Social_Share)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Avatares: [Vecteezy](https://pt.vecteezy.com)
 
-## Learn More
+- Thumbs de produtos: [On Shoes](https://www.onlyshoes.com.br), [New Balance](https://www.newbalance.com.br)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Wallpaper das páginas de Login e Cadastro: [Unsplash](https://unsplash.com/pt-br/fotografias/um-par-de-tenis-cinza-nike-air-force-SY7t8068fow)

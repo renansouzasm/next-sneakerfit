@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/storage/v1/object/public/placeholders/**",
       },
+      {
+        protocol: "https",
+        hostname: "acdn-us.mitiendanube.com",
+        port: "",
+        pathname: "/stores/005/200/430/products/**",
+      },
+      {
+        protocol: "https",
+        hostname: "newbrasil.vtexassets.com",
+        port: "",
+        pathname: "/arquivos/ids/**",
+      },
     ],
   },
 };

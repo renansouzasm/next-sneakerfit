@@ -29,7 +29,7 @@ export function ProductRow({ product }: RowProps) {
       <TableCell>
         <div className="relative size-12 overflow-hidden rounded-md bg-gray-200">
           <Image
-            className="object-contain"
+            className="object-cover"
             src={product.thumbUrl || "/placeholder.svg"}
             alt={product.name}
             fill
