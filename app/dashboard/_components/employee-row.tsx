@@ -49,7 +49,7 @@ export function EmployeeRow({ employee }: EmployeeRowProps) {
               <span className="sr-only">Abrir menu</span>
             </Button>
           </DropdownMenuTrigger>
-          
+
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />

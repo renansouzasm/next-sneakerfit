@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreSidebar } from "./_components/store-sidebar";
 import { ThemeToggleButton } from "@/components/theme-toggle-button";
 import { CartSheet } from "./_components/cart-sheet";
+import { AvatarGrid } from "./_components/avatar-grid";
 
 interface StoreLayoutProps {
   children: React.ReactNode;
@@ -27,6 +28,8 @@ export default function StoreLayout({ children }: StoreLayoutProps) {
                   <CartSheet />
 
                   <ThemeToggleButton />
+
+                  <AvatarGrid />
                 </div>
               </header>
 

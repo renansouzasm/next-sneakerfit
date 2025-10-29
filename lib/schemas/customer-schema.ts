@@ -5,13 +5,9 @@ const customerBaseSchema = z.object({
     .string()
     .min(3, { message: "Nome precisa ter no mínimo 3 caracteres." }),
 
-  email: z.string().email({ message: "E-mail inválido." }),
+  email: z.string().refine((value) => value.includes("@")),
 
-  avatarUrl: z
-    .string()
-    .url({ message: "URL do avatar inválida." })
-    .nullable()
-    .optional(),
+  avatarUrl: z.string().nullable().optional(),
 });
 
 export const customerCreateSchema = customerBaseSchema;

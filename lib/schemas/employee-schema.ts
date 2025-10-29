@@ -6,7 +6,7 @@ const employeeBaseSchema = z.object({
     .string()
     .min(3, { message: "Nome precisa ter no mínimo 3 caracteres." }),
 
-  email: z.string().email({ message: "E-mail inválido." }),
+  email: z.string().refine((value) => value.includes("@")),
 
   cpf: z.string().min(11, { message: "CPF deve ter no mínimo 11 caracteres." }),
 
@@ -14,11 +14,7 @@ const employeeBaseSchema = z.object({
     message: "Status inválido.",
   }),
 
-  avatarUrl: z
-    .string()
-    .url({ message: "URL do avatar inválida." })
-    .nullable()
-    .optional(),
+  avatarUrl: z.string().nullable().optional(),
 });
 
 export const employeeCreateSchema = employeeBaseSchema;

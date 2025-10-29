@@ -14,12 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEmployeeContext } from "../_context/EmployeeContext";
 import { displayErrorToast } from "@/utils/displayToast";
+import { EmployeeStatus } from "@prisma/client";
 
 interface EmployeeCreationFormProps {
   isCreating: boolean;
@@ -31,30 +32,37 @@ export function EmployeeCreationForm({
   setIsCreating,
 }: EmployeeCreationFormProps) {
   const { createEmployee } = useEmployeeContext();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [status, setStatus] = useState<"ACTIVE" | "VACATION">("ACTIVE");
-  const [avatarUrl, setAvatarUrl] = useState("/placeholder.svg");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const defaultForm = {
+    name: "",
+    email: "",
+    cpf: "",
+    status: "ACTIVE" as EmployeeStatus,
+    avatarUrl: "/placeholder.svg",
+  };
+  const [form, setForm] = useState(defaultForm);
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { id, value } = event.target;
+    setForm({
+      ...form,
+      [id]: value,
+    });
+  }
+
+  function handleSelect(value: string) {
+    setForm((prev) => ({ ...prev, status: value as EmployeeStatus }));
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
 
     try {
-      await createEmployee({
-        name,
-        email,
-        cpf,
-        status,
-        avatarUrl,
-      });
+      await createEmployee({ ...form });
 
-      setName("");
-      setEmail("");
-      setCpf("");
-      setStatus("ACTIVE");
+      setForm(defaultForm);
     } catch (error) {
       displayErrorToast(String(error));
     } finally {
@@ -78,8 +86,8 @@ export function EmployeeCreationForm({
             <Label htmlFor="name">Nome</Label>
             <Input
               id="name"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
+              value={form.name}
+              onChange={handleChange}
               placeholder="Digite o nome"
               required
             />
@@ -90,8 +98,8 @@ export function EmployeeCreationForm({
             <Input
               id="email"
               type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              value={form.email}
+              onChange={handleChange}
               placeholder="email@exemplo.com"
               required
             />
@@ -101,25 +109,25 @@ export function EmployeeCreationForm({
             <Label htmlFor="cpf">CPF</Label>
             <Input
               id="cpf"
-              value={cpf}
-              onChange={(event) => setCpf(event.target.value)}
+              value={form.cpf}
+              type="string"
+              onChange={handleChange}
               placeholder="000.000.000-00"
+              minLength={11}
               required
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="status">Status</Label>
-            <Select
-              value={status}
-              onValueChange={(value: "ACTIVE" | "VACATION") => setStatus(value)}
-            >
+            <Select value={form.status} onValueChange={handleSelect}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
+
               <SelectContent>
-                <SelectItem value="ACTIVE">Ativo</SelectItem>
-                <SelectItem value="VACATION">Férias</SelectItem>
+                <SelectItem value={EmployeeStatus.ACTIVE}>Ativo</SelectItem>
+                <SelectItem value={EmployeeStatus.VACATION}>Férias</SelectItem>
               </SelectContent>
             </Select>
           </div>
