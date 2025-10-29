@@ -23,28 +23,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShoppingBag } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
 import { WhatsappLogo } from "@phosphor-icons/react";
+import { useCartContext } from "../_context/CartContext";
+import { generateWhatsappLink } from "@/utils/generateWhatsappLink";
+import { displayInfoToast } from "@/utils/displayToast";
 
 export function CartSheet() {
-  const people = [
-    {
-      username: "shadcn",
-      avatar: "https://github.com/shadcn.png",
-      email: "shadcn@vercel.com",
-    },
-    {
-      username: "maxleiter",
-      avatar: "https://github.com/maxleiter.png",
-      email: "maxleiter@vercel.com",
-    },
-    {
-      username: "evilrabbit",
-      avatar: "https://github.com/evilrabbit.png",
-      email: "evilrabbit@vercel.com",
-    },
-  ];
+  const { cartProducts, increaseQuantity, decreaseQuantity } = useCartContext();
+  const [address, setAddress] = useState("");
+  const total = cartProducts.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0
+  );
+
+  function handleCheckout() {
+    try {
+      const link = generateWhatsappLink({
+        phone: "5511999999999",
+        cartProducts,
+        address,
+      });
+
+      window.open(link, "_blank");
+    } catch (error) {
+      displayInfoToast(String(error));
+    }
+  }
 
   return (
     <Sheet>
@@ -59,26 +65,27 @@ export function CartSheet() {
           <SheetTitle>Carrinho de Compras</SheetTitle>
         </SheetHeader>
 
-        <div className="flex w-full flex-col overflow-y-scroll">
+        <div className="flex w-full h-full flex-col overflow-y-scroll">
           <ItemGroup>
-            {people.map((person, index) => (
-              <Fragment key={index}>
+            {cartProducts.map((product, index) => (
+              <Fragment key={product.id}>
                 <Item className="flex wrap-anywhere items-start">
                   <ItemMedia>
                     <Avatar className="rounded-lg">
-                      <AvatarImage src={person.avatar ?? "/placeholder.svg"} />
-                      <AvatarFallback>
-                        {person.username.charAt(0)}
-                      </AvatarFallback>
+                      <AvatarImage
+                        className="object-cover"
+                        src={product.thumbUrl ?? "/placeholder.svg"}
+                      />
+                      <AvatarFallback>{product.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </ItemMedia>
 
                   <ItemContent className="gap-1">
                     <ItemTitle className="capitalize line-clamp-2">
-                      {"Nome do Produto"}
+                      {product.name}
                     </ItemTitle>
                     <ItemDescription>
-                      {formatCurrencyBrl(100000)}
+                      {formatCurrencyBrl(product.price * product.quantity)}
                     </ItemDescription>
                   </ItemContent>
 
@@ -87,13 +94,15 @@ export function CartSheet() {
                       <Button
                         size="icon"
                         className="rounded-full cursor-pointer"
+                        onClick={() => decreaseQuantity(product.id)}
                       >
                         <Minus />
                       </Button>
-                      {0}
+                      {product.quantity}
                       <Button
                         size="icon"
                         className="rounded-full cursor-pointer"
+                        onClick={() => increaseQuantity(product.id)}
                       >
                         <PlusIcon />
                       </Button>
@@ -101,21 +110,36 @@ export function CartSheet() {
                   </ItemActions>
                 </Item>
 
-                {index !== people.length - 1 && <ItemSeparator />}
+                {index !== cartProducts.length - 1 && <ItemSeparator />}
               </Fragment>
             ))}
           </ItemGroup>
         </div>
 
+        <ItemSeparator />
+
         <div className="px-4 space-y-2">
+          <h3>Total: {formatCurrencyBrl(total)}</h3>
+
           <div className="grid gap-3">
             <Label htmlFor="sheet-demo-name">Endereço</Label>
-            <Input id="sheet-demo-name" placeholder="Ex: Rua Exemplo, 999" />
+            <Input
+              id="sheet-demo-name"
+              value={address}
+              onChange={(event) => setAddress(event.target.value)}
+              placeholder="Ex: Rua Exemplo, 999"
+            />
           </div>
         </div>
 
+        <ItemSeparator />
+
         <SheetFooter>
-          <Button className="cursor-pointer" type="submit">
+          <Button
+            className="cursor-pointer"
+            type="submit"
+            onClick={handleCheckout}
+          >
             <WhatsappLogo /> Prosseguir
           </Button>
 

@@ -1,11 +1,16 @@
 "use client";
 
-import { ProductProvider } from "./ProductContext";
+import { CartProvider } from "./CartContext";
+import { StoreProductProvider } from "./StoreProductContext";
 
 interface ContextProps {
   children: React.ReactNode;
 }
 
 export function ContextWrapper({ children }: ContextProps) {
-  return <ProductProvider>{children}</ProductProvider>;
+  return (
+    <StoreProductProvider>
+      <CartProvider>{children}</CartProvider>
+    </StoreProductProvider>
+  );
 }

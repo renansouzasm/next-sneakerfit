@@ -3,12 +3,15 @@ import { formatCurrencyBrl } from "@/utils/formatCurrencyBrl";
 import { Product } from "@prisma/client";
 import { Heart, ShoppingBag } from "lucide-react";
 import Image from "next/image";
+import { useCartContext } from "../_context/CartContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { addNewProduct } = useCartContext();
+
   return (
     <div className="bg-card border group relative overflow-hidden rounded-xl transition-all">
       <div className="absolute left-4 top-4 z-10">
@@ -45,7 +48,10 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart />
         </Button>
 
-        <Button className="cursor-pointer">
+        <Button
+          className="cursor-pointer"
+          onClick={() => addNewProduct(product)}
+        >
           <ShoppingBag />
         </Button>
       </div>

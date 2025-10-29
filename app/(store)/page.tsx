@@ -3,7 +3,7 @@
 import { HeroSection } from "./_components/hero-section";
 import { Footer } from "./_components/footer";
 import { ProductCard } from "./_components/product-card";
-import { useProductContext } from "./_context/ProductContext";
+import { useProductContext } from "./_context/StoreProductContext";
 
 export default function StorePage() {
   const { products } = useProductContext();

@@ -11,3 +11,9 @@ export function displayErrorToast(message: string): void {
     className: "capitalize",
   });
 }
+
+export function displayInfoToast(message: string): void {
+  toast.info(message, {
+    className: "capitalize",
+  });
+}

@@ -1,60 +1,48 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { useProduct } from "@/hooks/use-product";
 import type { Product } from "@prisma/client";
-import {
-  ProductCreateForm,
-  ProductUpdateForm,
-} from "@/lib/schemas/product-schema";
+import { ProductUpdateForm } from "@/lib/schemas/product-schema";
+import { useStoreProduct } from "@/hooks/use-store-product";
 
 interface ContextProps {
   children: ReactNode;
 }
 
-interface ProductContextType {
+interface StoreProductContextType {
   products: Product[];
   loading: boolean;
   error: string | null;
-  createProduct: (newProduct: ProductCreateForm) => Promise<void>;
   updateProduct: (updatedProduct: ProductUpdateForm) => Promise<void>;
-  deleteProduct: (deleteId: string) => Promise<void>;
   findProduct: (getProductId: string) => Promise<Product | null | undefined>;
 }
 
-const ProductContext = createContext<ProductContextType | undefined>(undefined);
+const StoreProductContext = createContext<StoreProductContextType | undefined>(
+  undefined
+);
 
-export function ProductProvider({ children }: ContextProps) {
-  const {
-    products,
-    loading,
-    error,
-    createProduct,
-    updateProduct,
-    deleteProduct,
-    findProduct,
-  } = useProduct();
+export function StoreProductProvider({ children }: ContextProps) {
+  const { products, loading, error, updateProduct, findProduct } =
+    useStoreProduct();
 
   return (
-    <ProductContext.Provider
+    <StoreProductContext.Provider
       value={{
         products,
         loading,
         error,
-        createProduct,
         updateProduct,
-        deleteProduct,
         findProduct,
       }}
     >
       {children}
-    </ProductContext.Provider>
+    </StoreProductContext.Provider>
   );
 }
 
 export function useProductContext() {
   try {
-    const context = useContext(ProductContext);
+    const context = useContext(StoreProductContext);
 
     if (!context) {
       throw new Error(

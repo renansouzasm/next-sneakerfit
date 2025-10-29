@@ -8,10 +8,9 @@ import { Product } from "@prisma/client";
  * @param filename Nome do arquivo a ser baixado (sem extensão).
  */
 
-
 export async function exportToPDF(
   products: Product[],
-  filename = "relatorio-sneakerfit"
+  filename = "Relatório de Produtos - Sneakerfit"
 ) {
   if (!products.length) return;
 
@@ -21,26 +20,10 @@ export async function exportToPDF(
     format: "a4",
   });
 
-  // Centraliza título e adiciona logo (se tiver)
-  const pageWidth = doc.internal.pageSize.getWidth();
-
-  try {
-    // Exemplo: use sua logo no diretório público (ex: /logo.png)
-    const logoUrl = "/logo.png";
-    const logo = await (await fetch(logoUrl)).blob();
-    const logoBase64 = await blobToBase64(logo);
-
-    doc.addImage(logoBase64, "PNG", pageWidth - 120, 30, 80, 40);
-  } catch {
-    console.warn("Logo não encontrada em /logo.png — ignorando...");
-  }
-
   // Cabeçalho
   doc.setFont("helvetica", "bold");
   doc.setFontSize(20);
-  doc.text("Relatório de Produtos - Sneakerfit", pageWidth / 2, 60, {
-    align: "center",
-  });
+  doc.text("Relatório de Produtos - Sneakerfit", 0, 0);
 
   doc.setFontSize(10);
   doc.setTextColor(100);
@@ -72,12 +55,9 @@ export async function exportToPDF(
   const pageHeight = doc.internal.pageSize.getHeight();
   doc.setFontSize(9);
   doc.setTextColor(130);
-  doc.text(
-    "Sneakerfit Dashboard © " + new Date().getFullYear(),
-    pageWidth / 2,
-    pageHeight - 30,
-    { align: "center" }
-  );
+  doc.text("Sneakerfit Dashboard © " + new Date().getFullYear(), 0, 0, {
+    align: "center",
+  });
 
   // Baixa arquivo
   doc.save(`${filename}.pdf`);
